@@ -51,6 +51,24 @@ func getTotalDistance(lParts, rParts []int) int {
 	return totalDistance
 }
 
+func getSimilarityScore(lParts, rParts []int) int {
+	similarityScore := 0
+
+	recurrenceCount := make(map[int]int)
+
+	for i := 0; i < len(lParts); i++ {
+		recurrenceCount[rParts[i]] += 1
+	}
+
+	for _, key := range lParts {
+		if val, ok := recurrenceCount[key]; ok {
+			similarityScore += key * val
+		}
+	}
+
+	return similarityScore
+}
+
 func main() {
 	lines, err := utils.ReadFileLineByLine("./input.txt")
 	if err != nil {
@@ -58,6 +76,10 @@ func main() {
 	}
 
 	lParts, rParts := getSortedArrays(lines)
+
 	totaldistance := getTotalDistance(lParts, rParts)
 	fmt.Printf("[PART 1] total distance: %d\n", totaldistance)
+
+	similarityScore := getSimilarityScore(lParts, rParts)
+	fmt.Printf("[PART 2] similarity score: %d\n", similarityScore)
 }
