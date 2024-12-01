@@ -10,7 +10,7 @@ import (
 	"aoc/utils"
 )
 
-func getTotalDistance(lines []string) int {
+func getSortedArrays(lines []string) ([]int, []int) {
 	var lParts, rParts []int
 
 	for _, line := range lines {
@@ -33,6 +33,10 @@ func getTotalDistance(lines []string) int {
 	sort.Ints(lParts)
 	sort.Ints(rParts)
 
+	return lParts, rParts
+}
+
+func getTotalDistance(lParts, rParts []int) int {
 	totalDistance := 0
 
 	for i := 0; i < len(lParts); i++ {
@@ -53,6 +57,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	totaldistance := getTotalDistance(lines)
+	lParts, rParts := getSortedArrays(lines)
+	totaldistance := getTotalDistance(lParts, rParts)
 	fmt.Printf("[PART 1] total distance: %d\n", totaldistance)
 }
