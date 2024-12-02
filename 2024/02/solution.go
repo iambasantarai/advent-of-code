@@ -52,21 +52,48 @@ func isReportSafe(levels []int) bool {
 	return true
 }
 
-func getSafeReports(lines []string) (int, error) {
-	count := 0
+func checkReportSafetyWithDampener(levels []int) bool {
+	for i := 0; i < len(levels); i++ {
+		isSafe := isReportSafeWithDampener(levels, i)
+		if isSafe {
+			return true
+		}
+	}
+
+	return false
+}
+
+func isReportSafeWithDampener(levels []int, deleteIndex int) bool {
+	copyReport := make([]int, len(levels))
+	copy(copyReport, levels)
+
+	if deleteIndex == len(copyReport)-1 {
+		copyReport = copyReport[:deleteIndex]
+	} else {
+		copyReport = append(copyReport[:deleteIndex], copyReport[deleteIndex+1:]...)
+	}
+	return isReportSafe(copyReport)
+}
+
+func getSafeReports(lines []string) (int, int, error) {
+	safeReports := 0
+	safeReportsWithDampener := 0
 
 	for _, line := range lines {
 		levels, err := getLevels(line)
 		if err != nil {
-			return 0, err
+			return 0, 0, err
 		}
 
 		if isReportSafe(levels) {
-			count++
+			safeReports++
+			safeReportsWithDampener++
+		} else if checkReportSafetyWithDampener(levels) {
+			safeReportsWithDampener++
 		}
 	}
 
-	return count, nil
+	return safeReports, safeReportsWithDampener, nil
 }
 
 func main() {
@@ -75,10 +102,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	safeReports, err := getSafeReports(lines)
+	safeReports, safeReportsWithDampener, err := getSafeReports(lines)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Println("[PART 1] safe reports: ", safeReports)
+	fmt.Println("[PART 2] safe reports with dampener: ", safeReportsWithDampener)
 }
