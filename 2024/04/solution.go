@@ -31,7 +31,7 @@ func checkCoordinate(grid [][]string, x, y, dx, dy int) bool {
 	return true
 }
 
-func countOccurrences(grid [][]string) int {
+func countXMASOccurrences(grid [][]string) int {
 	count := 0
 	rows := len(grid)
 	cols := len(grid[0])
@@ -60,6 +60,24 @@ func countOccurrences(grid [][]string) int {
 	return count
 }
 
+func countXShapedMASOccurrences(grid [][]string) int {
+	count := 0
+
+	for i := 1; i < len(grid)-1; i++ {
+		for j := 1; j < len(grid[0])-1; j++ {
+			if grid[i][j] != "A" {
+				continue
+			}
+			if ((grid[i-1][j-1] == "S" && grid[i+1][j+1] == "M") || (grid[i-1][j-1] == "M" && grid[i+1][j+1] == "S")) &&
+				((grid[i-1][j+1] == "S" && grid[i+1][j-1] == "M") || (grid[i-1][j+1] == "M" && grid[i+1][j-1] == "S")) {
+				count++
+			}
+		}
+	}
+
+	return count
+}
+
 func main() {
 	lines, err := utils.ReadFileLineByLine("./input.txt")
 	if err != nil {
@@ -71,7 +89,9 @@ func main() {
 		grid = append(grid, strings.Split(line, ""))
 	}
 
-	occurrencesCount := countOccurrences(grid)
+	occurrencesCount := countXMASOccurrences(grid)
+	fiexedOccurrencesCount := countXShapedMASOccurrences(grid)
 
 	fmt.Println("[PART 1] total occurrencesCount: ", occurrencesCount)
+	fmt.Println("[PART 2] total occurrencesCount: ", fiexedOccurrencesCount)
 }
