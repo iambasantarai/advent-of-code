@@ -2,4 +2,4 @@
 
 Advent of Code is an annual set of Christmas-themed computer programming challenges that follow an Advent calendar.
 
--[2024](https://github.com/iambasantarai/advent-of-code/tree/main/2024)
+- [2024](https://github.com/iambasantarai/advent-of-code/tree/main/2024)
