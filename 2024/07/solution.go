@@ -8,59 +8,126 @@ import (
 	"strings"
 )
 
-func evaluateExpression(numbers []int, operators []rune) int {
-	result := numbers[0]
-	for i, op := range operators {
-		switch op {
-		case '+':
-			result += numbers[i+1]
-		case '*':
-			result *= numbers[i+1]
+func generateOperatorCombinations(numCount int, operators []string) [][]string {
+	if numCount <= 1 {
+		return [][]string{}
+	}
+	if numCount == 2 {
+		var combinations [][]string
+		for _, op := range operators {
+			combinations = append(combinations, []string{op})
+		}
+		return combinations
+	}
+	subCombos := generateOperatorCombinations(numCount-1, operators)
+	var result [][]string
+	for _, op := range operators {
+		for _, subCombo := range subCombos {
+			newCombo := append([]string{op}, subCombo...)
+			result = append(result, newCombo)
 		}
 	}
 	return result
 }
 
-func isValidEquation(target int, numbers []int) bool {
-	operatorsCombinations := getOperatorsCombinations(len(numbers) - 1)
-	for _, operators := range operatorsCombinations {
-		if evaluateExpression(numbers, operators) == target {
+func evaluateExpression(nums []int, ops []string) (int, bool) {
+	expr := strconv.Itoa(nums[0])
+	for i := 1; i < len(nums); i++ {
+		expr += " " + ops[i-1] + " " + strconv.Itoa(nums[i])
+	}
+	return evalExprWithConcat(expr)
+}
+
+func evalExprWithConcat(expression string) (int, bool) {
+	parts := strings.Fields(expression)
+	current := parts[0]
+	for i := 1; i < len(parts); i += 2 {
+		op := parts[i]
+		num := parts[i+1]
+		if op == "||" {
+			current += num
+		} else {
+			currVal, err1 := strconv.Atoi(current)
+			nextVal, err2 := strconv.Atoi(num)
+			if err1 != nil || err2 != nil {
+				return 0, false
+			}
+			if op == "+" {
+				currVal += nextVal
+			} else if op == "*" {
+				currVal *= nextVal
+			}
+			current = strconv.Itoa(currVal)
+		}
+	}
+	result, err := strconv.Atoi(current)
+	if err != nil {
+		return 0, false
+	}
+	return result, true
+}
+
+func checkCombinations(testValue int, nums []int, operators []string) bool {
+	numCount := len(nums)
+	combos := generateOperatorCombinations(numCount, operators)
+
+	for _, combo := range combos {
+		result, valid := evaluateExpression(nums, combo)
+		if valid && result == testValue {
 			return true
 		}
 	}
 	return false
 }
 
-func getOperatorsCombinations(numOperators int) [][]rune {
-	combinations := make([][]rune, 0)
-	for i := 0; i < (1 << numOperators); i++ {
-		combination := make([]rune, numOperators)
-		for j := 0; j < numOperators; j++ {
-			if (i>>j)&1 == 0 {
-				combination[j] = '+'
-			} else {
-				combination[j] = '*'
-			}
+func totalResult(lines []string, operators []string) int {
+	total := 0
+	for _, line := range lines {
+		parts := strings.Split(line, ":")
+		testValue, _ := strconv.Atoi(strings.TrimSpace(parts[0]))
+		numStrings := strings.Fields(strings.TrimSpace(parts[1]))
+
+		var nums []int
+		for _, numStr := range numStrings {
+			num, _ := strconv.Atoi(numStr)
+			nums = append(nums, num)
 		}
-		combinations = append(combinations, combination)
+
+		if checkCombinations(testValue, nums, operators) {
+			total += testValue
+		}
 	}
-	return combinations
+	return total
 }
 
-func totalCalibrationResult(inputLines []string) int {
-	total := 0
-	for _, line := range inputLines {
-		parts := strings.Split(line, ":")
-		target, _ := strconv.Atoi(strings.TrimSpace(parts[0]))
-		numStrs := strings.Fields(parts[1])
+func checkCombinationsWithConcat(testValue int, nums []int, operators []string) bool {
+	numCount := len(nums)
+	combos := generateOperatorCombinations(numCount, operators)
 
-		numbers := make([]int, len(numStrs))
-		for i, numStr := range numStrs {
-			numbers[i], _ = strconv.Atoi(numStr)
+	for _, combo := range combos {
+		result, valid := evaluateExpression(nums, combo)
+		if valid && result == testValue {
+			return true
+		}
+	}
+	return false
+}
+
+func totalResultWithConcat(lines []string, operators []string) int {
+	total := 0
+	for _, line := range lines {
+		parts := strings.Split(line, ":")
+		testValue, _ := strconv.Atoi(strings.TrimSpace(parts[0]))
+		numStrings := strings.Fields(strings.TrimSpace(parts[1]))
+
+		var nums []int
+		for _, numStr := range numStrings {
+			num, _ := strconv.Atoi(numStr)
+			nums = append(nums, num)
 		}
 
-		if isValidEquation(target, numbers) {
-			total += target
+		if checkCombinationsWithConcat(testValue, nums, operators) {
+			total += testValue
 		}
 	}
 	return total
@@ -72,6 +139,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	result := totalCalibrationResult(lines)
-	fmt.Println("[PART1] result: ", result)
+	operators := []string{"+", "*"}
+	part1Result := totalResult(lines, operators)
+	fmt.Println("[PART1] result:", part1Result)
+
+	operatorsWithConcat := []string{"+", "*", "||"}
+	part2Result := totalResultWithConcat(lines, operatorsWithConcat)
+	fmt.Println("[PART2] result:", part2Result)
 }
