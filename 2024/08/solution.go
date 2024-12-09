@@ -30,38 +30,55 @@ func isValid(grid []string, antinode Coordinate) bool {
 		antinode.y < len(grid)
 }
 
-func findAntinodes(grid []string) int {
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+
+	return b
+}
+
+func findAntinodes(grid []string, includeHarmonics bool) int {
 	coordinates := findAntennas(grid)
-	uniqueAntiNodes := make(map[Coordinate]bool)
+	uniqueAntinodes := make(map[Coordinate]bool)
 
 	for _, coordinate := range coordinates {
 		if len(coordinate) < 2 {
 			continue
 		}
 
+		if includeHarmonics {
+			for _, antenna := range coordinate {
+				uniqueAntinodes[antenna] = true
+			}
+		}
+
 		for i := 0; i < len(coordinate)-1; i++ {
 			for j := i + 1; j < len(coordinate); j++ {
-
 				dx := coordinate[j].x - coordinate[i].x
 				dy := coordinate[j].y - coordinate[i].y
 
 				steps := 1
+				if includeHarmonics {
+					steps = max(len(grid), len(grid[0]))
+				}
 
 				for k := 1; k <= steps; k++ {
 					antinode1 := Coordinate{x: coordinate[i].x - k*dx, y: coordinate[i].y - k*dy}
 					antinode2 := Coordinate{x: coordinate[j].x + k*dx, y: coordinate[j].y + k*dy}
 
 					if isValid(grid, antinode1) {
-						uniqueAntiNodes[antinode1] = true
+						uniqueAntinodes[antinode1] = true
 					}
 					if isValid(grid, antinode2) {
-						uniqueAntiNodes[antinode2] = true
+						uniqueAntinodes[antinode2] = true
 					}
 				}
 			}
 		}
 	}
-	return len(uniqueAntiNodes)
+
+	return len(uniqueAntinodes)
 }
 
 func main() {
@@ -70,6 +87,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	antinodes := findAntinodes(grid)
-	fmt.Println("[PART 1] antinodes: ", antinodes)
+	antinodes := findAntinodes(grid, false)
+	fmt.Println("[PART 1] antinodes:", antinodes)
+
+	antinodesWithHarmonics := findAntinodes(grid, true)
+	fmt.Println("[PART 2] antinodes:", antinodesWithHarmonics)
 }
