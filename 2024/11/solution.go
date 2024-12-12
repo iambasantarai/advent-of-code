@@ -43,26 +43,38 @@ func splitNumber(num int) (int, int, error) {
 }
 
 func getStoneCountAfterBlink(arrangement []int, blinks int) (int, error) {
-	queue := append([]int{}, arrangement...)
+	stoneCounts := make(map[int]int)
+
+	for _, stone := range arrangement {
+		stoneCounts[stone]++
+	}
+
 	for i := 0; i < blinks; i++ {
-		nextQueue := []int{}
-		for _, stone := range queue {
+		nextStoneCounts := make(map[int]int)
+		for stone, count := range stoneCounts {
 			switch {
 			case stone == 0:
-				nextQueue = append(nextQueue, 1)
+				nextStoneCounts[1] += count
 			case len(strconv.Itoa(stone))%2 == 0:
 				left, right, err := splitNumber(stone)
 				if err != nil {
 					return 0, err
 				}
-				nextQueue = append(nextQueue, left, right)
+				nextStoneCounts[left] += count
+				nextStoneCounts[right] += count
 			default:
-				nextQueue = append(nextQueue, stone*2024)
+				nextStoneCounts[stone*2024] += count
 			}
 		}
-		queue = nextQueue
+		stoneCounts = nextStoneCounts
 	}
-	return len(queue), nil
+
+	totalStones := 0
+	for _, count := range stoneCounts {
+		totalStones += count
+	}
+
+	return totalStones, nil
 }
 
 func main() {
@@ -81,4 +93,10 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println("[PART 1] stones: ", stoneCountAfter25Blinks)
+
+	stoneCountAfter75Blinks, err := getStoneCountAfterBlink(arrangement, 75)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("[PART 2] stones: ", stoneCountAfter75Blinks)
 }
