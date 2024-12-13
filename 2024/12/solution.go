@@ -39,7 +39,7 @@ func checkAll4(input [][]string, current Point) []Point {
 	return sameAround
 }
 
-func ans(input [][]string) (int, int) {
+func getTotalCost(input [][]string) (int, int) {
 	totalCostWithPerimeter, totalCostWithSides := 0, 0
 
 	visited := make(map[Point]struct{})
@@ -198,7 +198,7 @@ func main() {
 
 	grid := utils.Build2DGrid(lines)
 
-	totalCost, totalCostWithSides := ans(grid)
+	totalCost, totalCostWithSides := getTotalCost(grid)
 	fmt.Println("[PART 1] total cost: ", totalCost)
 	fmt.Println("[PART 2] total cost: ", totalCostWithSides)
 }
