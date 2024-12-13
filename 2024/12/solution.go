@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"strings"
 
 	"aoc/utils"
 )
@@ -16,14 +15,6 @@ type polynomial struct {
 	area      int
 	perimeter int
 	sides     int
-}
-
-func build2DGrid(lines []string) [][]string {
-	grid := make([][]string, len(lines))
-	for i, line := range lines {
-		grid[i] = strings.Split(line, "")
-	}
-	return grid
 }
 
 func checkAll4(input [][]string, current Point) []Point {
@@ -205,7 +196,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	grid := build2DGrid(lines)
+	grid := utils.Build2DGrid(lines)
 
 	totalCost, totalCostWithSides := ans(grid)
 	fmt.Println("[PART 1] total cost: ", totalCost)

@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"strings"
 
 	"aoc/utils"
 )
@@ -32,14 +31,6 @@ var directions = []Coordinate{
 	{0, 1},  // right
 	{1, 0},  // down
 	{0, -1}, // left
-}
-
-func build2DGrid(lines []string) [][]string {
-	grid := make([][]string, len(lines))
-	for i, line := range lines {
-		grid[i] = strings.Split(line, "")
-	}
-	return grid
 }
 
 func findStartingPoint(labMap [][]string) Point {
@@ -181,7 +172,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	labMap := build2DGrid(lines)
+	labMap := utils.Build2DGrid(lines)
 	startingPoint := findStartingPoint(labMap)
 
 	visitedPositions, path := patrol(labMap, startingPoint)

@@ -3,6 +3,7 @@ package utils
 import (
 	"bufio"
 	"os"
+	"strings"
 )
 
 func ReadFileLineByLine(filePath string) ([]string, error) {
@@ -20,4 +21,12 @@ func ReadFileLineByLine(filePath string) ([]string, error) {
 	}
 
 	return lines, scanner.Err()
+}
+
+func Build2DGrid(lines []string) [][]string {
+	grid := make([][]string, len(lines))
+	for i, line := range lines {
+		grid[i] = strings.Split(line, "")
+	}
+	return grid
 }
