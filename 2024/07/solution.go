@@ -1,11 +1,12 @@
 package main
 
 import (
-	"aoc/utils"
 	"fmt"
 	"log"
 	"strconv"
 	"strings"
+
+	"aoc/utils"
 )
 
 func generateOperatorCombinations(numCount int, operators []string) [][]string {
@@ -132,6 +133,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("--- Day 7: Bridge Repair ---")
 	operators := []string{"+", "*"}
 	part1Result, err := totalResult(lines, operators)
 	if err != nil {

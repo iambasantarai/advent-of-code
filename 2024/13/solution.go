@@ -14,22 +14,6 @@ type Coordinates struct {
 	X, Y int
 }
 
-func main() {
-	lines, err := utils.ReadFileLineByLine("input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	prizes, err := getPrizes(lines)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	tokens, tokens1 := getTokenCount(prizes)
-	fmt.Println("[PART 1] tokens: ", tokens)
-	fmt.Println("[PART 2] tokens: ", tokens1)
-}
-
 func fetchSliceOfIntsInString(s string) ([]int, error) {
 	var nums []int
 
@@ -114,4 +98,21 @@ func getTokenCount(input [][]Coordinates) (int, int) {
 	}
 
 	return count, count1
+}
+
+func main() {
+	lines, err := utils.ReadFileLineByLine("input.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	prizes, err := getPrizes(lines)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("--- Day 13: Claw Contraption ---")
+	tokens, tokens1 := getTokenCount(prizes)
+	fmt.Println("[PART 1] tokens: ", tokens)
+	fmt.Println("[PART 2] tokens: ", tokens1)
 }

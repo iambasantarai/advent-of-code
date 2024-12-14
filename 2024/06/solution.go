@@ -178,6 +178,7 @@ func main() {
 	visitedPositions, path := patrol(labMap, startingPoint)
 	differentPosition := findNewObstacleCount(labMap, startingPoint, path)
 
+	fmt.Println("--- Day 6: Guard Gallivant ---")
 	fmt.Println("[PART 1] visited positions:", visitedPositions)
 	fmt.Println("[PART 2] different positions:", differentPosition)
 }

@@ -1,9 +1,10 @@
 package main
 
 import (
-	"aoc/utils"
 	"fmt"
 	"log"
+
+	"aoc/utils"
 )
 
 type Coordinate struct {
@@ -87,6 +88,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("--- Day 8: Resonant Collinearity ---")
 	antinodes := findAntinodes(grid, false)
 	fmt.Println("[PART 1] antinodes:", antinodes)
 

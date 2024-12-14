@@ -120,6 +120,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("--- Day 3: Mull It Over ---")
 	totalSum, err := getTotalSumOfNormalMuls(lines)
 	if err != nil {
 		log.Fatal(err)

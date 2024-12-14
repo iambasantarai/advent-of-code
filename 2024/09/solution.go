@@ -1,25 +1,13 @@
 package main
 
 import (
-	"aoc/utils"
 	"fmt"
 	"log"
 	"strconv"
 	"strings"
+
+	"aoc/utils"
 )
-
-func main() {
-	lines, err := utils.ReadFileLineByLine("./input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	checkSum1 := compactDiskByMovingBlocksAndCalculateChecksum(strings.Split(lines[0], ""))
-	fmt.Println("[PART 1] checksum: ", checkSum1)
-
-	checkSum2 := compactDiskByMovingFilesAndCalculateChecksum(strings.Split(lines[0], ""))
-	fmt.Println("[PART 2] checksum: ", checkSum2)
-}
 
 func compactDiskByMovingBlocksAndCalculateChecksum(diskMapInput []string) int64 {
 	checksum := int64(0)
@@ -111,4 +99,18 @@ func compactDiskByMovingFilesAndCalculateChecksum(diskMapInput []string) int64 {
 	}
 
 	return solution
+}
+
+func main() {
+	lines, err := utils.ReadFileLineByLine("./input.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("--- Day 9: Disk Fragmenter ---")
+	checkSum1 := compactDiskByMovingBlocksAndCalculateChecksum(strings.Split(lines[0], ""))
+	fmt.Println("[PART 1] checksum: ", checkSum1)
+
+	checkSum2 := compactDiskByMovingFilesAndCalculateChecksum(strings.Split(lines[0], ""))
+	fmt.Println("[PART 2] checksum: ", checkSum2)
 }

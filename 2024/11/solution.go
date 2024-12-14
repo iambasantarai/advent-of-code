@@ -88,6 +88,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("--- Day 11: Plutonian Pebbles ---")
 	stoneCountAfter25Blinks, err := getStoneCountAfterBlink(arrangement, 25)
 	if err != nil {
 		log.Fatal(err)

@@ -198,6 +198,7 @@ func main() {
 
 	grid := utils.Build2DGrid(lines)
 
+	fmt.Println("--- Day 12: Garden Groups ---")
 	totalCost, totalCostWithSides := getTotalCost(grid)
 	fmt.Println("[PART 1] total cost: ", totalCost)
 	fmt.Println("[PART 2] total cost: ", totalCostWithSides)

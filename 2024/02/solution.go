@@ -107,6 +107,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("--- Day 2: Red-Nosed Reports ---")
 	fmt.Println("[PART 1] safe reports: ", safeReports)
 	fmt.Println("[PART 2] safe reports with dampener: ", safeReportsWithDampener)
 }

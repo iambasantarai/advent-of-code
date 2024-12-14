@@ -1,10 +1,11 @@
 package main
 
 import (
-	"aoc/utils"
 	"fmt"
 	"log"
 	"strings"
+
+	"aoc/utils"
 )
 
 func parseMap(input string) [][]int {
@@ -124,6 +125,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("--- Day 10: Hoof It ---")
 	totalScore := calculateScores(lines)
 	fmt.Println("[PART 1] total score: ", totalScore)
 

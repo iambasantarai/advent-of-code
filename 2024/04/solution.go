@@ -92,6 +92,7 @@ func main() {
 	occurrencesCount := countXMASOccurrences(grid)
 	fiexedOccurrencesCount := countXShapedMASOccurrences(grid)
 
+	fmt.Println("--- Day 4: Ceres Search ---")
 	fmt.Println("[PART 1] total occurrencesCount: ", occurrencesCount)
 	fmt.Println("[PART 2] total occurrencesCount: ", fiexedOccurrencesCount)
 }

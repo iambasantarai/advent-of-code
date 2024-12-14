@@ -162,6 +162,7 @@ func main() {
 
 	sumOfMids, sumOfOrderCorrectedMids := updatesFollowsRules(updates, rules)
 
+	fmt.Println("--- Day 5: Print Queue ---")
 	fmt.Println("[PART1] sum of mids: ", sumOfMids)
 	fmt.Println("[PART2] sum of mids: ", sumOfOrderCorrectedMids)
 }

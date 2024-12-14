@@ -77,6 +77,7 @@ func main() {
 
 	lParts, rParts := getSortedArrays(lines)
 
+	fmt.Println("--- Day 1: Historian Hysteria ---")
 	totaldistance := getTotalDistance(lParts, rParts)
 	fmt.Printf("[PART 1] total distance: %d\n", totaldistance)
 
