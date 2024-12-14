@@ -25,8 +25,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	tokens := getTokenCount(prizes)
+	tokens, tokens1 := getTokenCount(prizes)
 	fmt.Println("[PART 1] tokens: ", tokens)
+	fmt.Println("[PART 2] tokens: ", tokens1)
 }
 
 func fetchSliceOfIntsInString(s string) ([]int, error) {
@@ -96,8 +97,8 @@ func getButtonPressesIfValid(a, b, final Coordinates, add int) (bool, Coordinate
 	return solveLinearEquation(a, b, final)
 }
 
-func getTokenCount(input [][]Coordinates) int {
-	count := 0
+func getTokenCount(input [][]Coordinates) (int, int) {
+	var count, count1 int = 0, 0
 
 	for _, prize := range input {
 		isValid, tokens := getButtonPressesIfValid(prize[0], prize[1], prize[2], 0)
@@ -105,7 +106,12 @@ func getTokenCount(input [][]Coordinates) int {
 			count += tokens.X*3 + tokens.Y
 		}
 
+		isValid1, tokens1 := getButtonPressesIfValid(prize[0], prize[1], prize[2], 10000000000000)
+		if isValid1 {
+			count1 += tokens1.X*3 + tokens1.Y
+		}
+
 	}
 
-	return count
+	return count, count1
 }
